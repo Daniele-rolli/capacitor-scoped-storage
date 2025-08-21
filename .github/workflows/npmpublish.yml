@@ -17,6 +17,8 @@ jobs:
         with:
           node-version: '16'
 
+      - run: npm ci
+
       - name: Get version from package.json
         id: get-version
         run: |
@@ -39,6 +41,8 @@ jobs:
 
       - name: Set up .npmrc for npmjs.org
         run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
+
+      - run: npm ci
 
       - name: Publish to npmjs.org
         run: npm publish --provenance --access public
