@@ -17,8 +17,6 @@ jobs:
         with:
           node-version: '16'
 
-      - run: npm ci
-
       - name: Get version from package.json
         id: get-version
         run: |
