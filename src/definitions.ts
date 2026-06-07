@@ -11,6 +11,7 @@ export interface WriteOptions {
   path: string;         // relative to folder
   data: string;         // utf8 or base64
   encoding?: 'utf8' | 'base64';
+  mimeType?: string;
 }
 
 export type AppendOptions = WriteOptions
