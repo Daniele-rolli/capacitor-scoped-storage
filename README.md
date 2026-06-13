@@ -12,33 +12,10 @@ This plugin lets your app request a folder from the user and then perform safe f
 
 👉 For a real-world setup, check out the [example-app](./example-app) with a full implementation.
 
-## 📑 Table of Contents
-
-* [✨ Features](#-features)
-* [📦 Installation](#-installation)
-* [🛠 Usage](#-usage)
-
-  * [Pick a Folder](#pick-a-folder)
-  * [Write & Read a File](#write--read-a-file)
-  * [List Directory Contents](#list-directory-contents)
-  * [Move & Copy](#move--copy)
-* [📚 API Reference](#-api-reference)
-* [📝 API Types](#-api-types)
-
-  * [Folder & Folder Selection](#folder--folder-selection)
-  * [File Operations](#file-operations)
-  * [Directory Operations](#directory-operations)
-  * [File Metadata & Existence](#file-metadata--existence)
-  * [File Management (Delete, Move, Copy)](#file-management-delete-move-copy)
-  * [Path Utility](#path-utility)
-  * [iOS Setup](#ios)
-* [📄 License](#-license)
-
 ## ✨ Features
 
 * 🔒 **Scoped access**: Operates only within the folder the user selects
 * 📂 Cross-platform:
-
   * **iOS** → Security-scoped bookmarks
   * **Android** → Storage Access Framework (SAF)
 * 📑 File operations: `readFile`, `writeFile`, `appendFile`, `deleteFile`
@@ -112,161 +89,356 @@ await ScopedStorage.copy({
 });
 ```
 
----
-
 ## 📚 API Reference
 
-### Plugin Methods
+<docgen-index>
 
-* `pickFolder(): Promise<PickFolderResult>`
-* `writeFile(options: WriteOptions): Promise<void>`
-* `appendFile(options: AppendOptions): Promise<void>`
-* `readFile(options: ReadOptions): Promise<{ data: string }>`
-* `mkdir(options: MkdirOptions): Promise<void>`
-* `rmdir(options: RmdirOptions): Promise<void>`
-* `readdir(options: ReaddirOptions): Promise<ReaddirResult>`
-* `stat(options: StatOptions): Promise<StatResult>`
-* `exists(options: ExistsOptions): Promise<ExistsResult>`
-* `deleteFile(options: DeleteOptions): Promise<void>`
-* `move(options: MoveCopyOptions): Promise<void>`
-* `copy(options: MoveCopyOptions): Promise<void>`
-* `getUriForPath(options: UriForPathOptions): Promise<UriForPathResult>`
+* [`pickFolder()`](#pickfolder)
+* [`writeFile(...)`](#writefile)
+* [`appendFile(...)`](#appendfile)
+* [`readFile(...)`](#readfile)
+* [`mkdir(...)`](#mkdir)
+* [`rmdir(...)`](#rmdir)
+* [`readdir(...)`](#readdir)
+* [`stat(...)`](#stat)
+* [`exists(...)`](#exists)
+* [`deleteFile(...)`](#deletefile)
+* [`move(...)`](#move)
+* [`copy(...)`](#copy)
+* [`getUriForPath(...)`](#geturiforpath)
+* [Interfaces](#interfaces)
+* [Type Aliases](#type-aliases)
 
----
+</docgen-index>
 
-## 📝 API Types
+<docgen-api>
+<!--Update the source file JSDoc comments and rerun docgen to update the docs below-->
 
-### Folder & Folder Selection
+### pickFolder()
 
-```ts
-export interface FolderRef {
-  /** Android: tree URI; iOS: base64 security-scoped bookmark */
-  id: string;
-  name?: string;
-}
-
-export interface PickFolderResult {
-  folder: FolderRef;
-}
+```typescript
+pickFolder() => Promise<PickFolderResult>
 ```
 
-### File Operations
+**Returns:** <code>Promise&lt;<a href="#pickfolderresult">PickFolderResult</a>&gt;</code>
 
-```ts
-export interface WriteOptions {
-  folder: FolderRef;
-  path: string; // relative to folder
-  data: string; // utf8 or base64
-  encoding?: 'utf8' | 'base64';
-}
+--------------------
 
-export interface AppendOptions extends WriteOptions {}
 
-export interface ReadOptions {
-  folder: FolderRef;
-  path: string;
-  encoding?: 'utf8' | 'base64';
-}
+### writeFile(...)
+
+```typescript
+writeFile(options: WriteOptions) => Promise<void>
 ```
 
-### Directory Operations
+| Param         | Type                                                  |
+| ------------- | ----------------------------------------------------- |
+| **`options`** | <code><a href="#writeoptions">WriteOptions</a></code> |
 
-```ts
-export interface MkdirOptions {
-  folder: FolderRef;
-  path: string;
-  recursive?: boolean;
-}
+--------------------
 
-export interface RmdirOptions {
-  folder: FolderRef;
-  path: string;
-  recursive?: boolean;
-}
 
-export interface ReaddirOptions {
-  folder: FolderRef;
-  path?: string;
-}
+### appendFile(...)
 
-export interface ReaddirResult {
-  entries: {
-    name: string;
-    isDir: boolean;
-    size?: number | null;
-    mtime?: number | null;
-  }[];
-}
+```typescript
+appendFile(options: AppendOptions) => Promise<void>
 ```
 
-### File Metadata & Existence
+| Param         | Type                                                  |
+| ------------- | ----------------------------------------------------- |
+| **`options`** | <code><a href="#writeoptions">WriteOptions</a></code> |
 
-```ts
-export interface StatOptions {
-  folder: FolderRef;
-  path: string;
-}
+--------------------
 
-export interface StatResult {
-  uri?: string;
-  size?: number | null;
-  mtime?: number | null;
-  type: 'file' | 'directory' | 'unknown';
-}
 
-export interface ExistsOptions {
-  folder: FolderRef;
-  path: string;
-}
+### readFile(...)
 
-export interface ExistsResult {
-  exists: boolean;
-  isDirectory: boolean;
-}
+```typescript
+readFile(options: ReadOptions) => Promise<{ data: string; }>
 ```
 
-### File Management (Delete, Move, Copy)
+| Param         | Type                                                |
+| ------------- | --------------------------------------------------- |
+| **`options`** | <code><a href="#readoptions">ReadOptions</a></code> |
 
-```ts
-export interface DeleteOptions {
-  folder: FolderRef;
-  path: string;
-}
+**Returns:** <code>Promise&lt;{ data: string; }&gt;</code>
 
-export interface MoveCopyOptions {
-  folder: FolderRef;
-  from: string;
-  to: string;
-  overwrite?: boolean;
-}
+--------------------
+
+
+### mkdir(...)
+
+```typescript
+mkdir(options: MkdirOptions) => Promise<void>
 ```
 
-### Path Utility
+| Param         | Type                                                  |
+| ------------- | ----------------------------------------------------- |
+| **`options`** | <code><a href="#mkdiroptions">MkdirOptions</a></code> |
 
-```ts
-export interface UriForPathOptions {
-  folder: FolderRef;
-  path: string;
-}
+--------------------
 
-export interface UriForPathResult {
-  uri: string | null;
-}
+
+### rmdir(...)
+
+```typescript
+rmdir(options: RmdirOptions) => Promise<void>
 ```
 
-### iOS
+| Param         | Type                                                  |
+| ------------- | ----------------------------------------------------- |
+| **`options`** | <code><a href="#rmdiroptions">RmdirOptions</a></code> |
 
-Add the following to your **Info.plist**:
+--------------------
 
-```xml
-<key>LSSupportsOpeningDocumentsInPlace</key>
-<true/>
-<key>UISupportsDocumentBrowser</key>
-<false/>
+
+### readdir(...)
+
+```typescript
+readdir(options: ReaddirOptions) => Promise<ReaddirResult>
 ```
+
+| Param         | Type                                                      |
+| ------------- | --------------------------------------------------------- |
+| **`options`** | <code><a href="#readdiroptions">ReaddirOptions</a></code> |
+
+**Returns:** <code>Promise&lt;<a href="#readdirresult">ReaddirResult</a>&gt;</code>
+
+--------------------
+
+
+### stat(...)
+
+```typescript
+stat(options: StatOptions) => Promise<StatResult>
+```
+
+| Param         | Type                                                |
+| ------------- | --------------------------------------------------- |
+| **`options`** | <code><a href="#statoptions">StatOptions</a></code> |
+
+**Returns:** <code>Promise&lt;<a href="#statresult">StatResult</a>&gt;</code>
+
+--------------------
+
+
+### exists(...)
+
+```typescript
+exists(options: ExistsOptions) => Promise<ExistsResult>
+```
+
+| Param         | Type                                                    |
+| ------------- | ------------------------------------------------------- |
+| **`options`** | <code><a href="#existsoptions">ExistsOptions</a></code> |
+
+**Returns:** <code>Promise&lt;<a href="#existsresult">ExistsResult</a>&gt;</code>
+
+--------------------
+
+
+### deleteFile(...)
+
+```typescript
+deleteFile(options: DeleteOptions) => Promise<void>
+```
+
+| Param         | Type                                                    |
+| ------------- | ------------------------------------------------------- |
+| **`options`** | <code><a href="#deleteoptions">DeleteOptions</a></code> |
+
+--------------------
+
+
+### move(...)
+
+```typescript
+move(options: MoveCopyOptions) => Promise<void>
+```
+
+| Param         | Type                                                        |
+| ------------- | ----------------------------------------------------------- |
+| **`options`** | <code><a href="#movecopyoptions">MoveCopyOptions</a></code> |
+
+--------------------
+
+
+### copy(...)
+
+```typescript
+copy(options: MoveCopyOptions) => Promise<void>
+```
+
+| Param         | Type                                                        |
+| ------------- | ----------------------------------------------------------- |
+| **`options`** | <code><a href="#movecopyoptions">MoveCopyOptions</a></code> |
+
+--------------------
+
+
+### getUriForPath(...)
+
+```typescript
+getUriForPath(options: UriForPathOptions) => Promise<UriForPathResult>
+```
+
+| Param         | Type                                                            |
+| ------------- | --------------------------------------------------------------- |
+| **`options`** | <code><a href="#uriforpathoptions">UriForPathOptions</a></code> |
+
+**Returns:** <code>Promise&lt;<a href="#uriforpathresult">UriForPathResult</a>&gt;</code>
+
+--------------------
+
+
+### Interfaces
+
+
+#### PickFolderResult
+
+| Prop         | Type                                            |
+| ------------ | ----------------------------------------------- |
+| **`folder`** | <code><a href="#folderref">FolderRef</a></code> |
+
+
+#### FolderRef
+
+| Prop       | Type                | Description                                             |
+| ---------- | ------------------- | ------------------------------------------------------- |
+| **`id`**   | <code>string</code> | Android: tree URI; iOS: base64 security-scoped bookmark |
+| **`name`** | <code>string</code> |                                                         |
+
+
+#### WriteOptions
+
+| Prop           | Type                                            |
+| -------------- | ----------------------------------------------- |
+| **`folder`**   | <code><a href="#folderref">FolderRef</a></code> |
+| **`path`**     | <code>string</code>                             |
+| **`data`**     | <code>string</code>                             |
+| **`encoding`** | <code>'utf8' \| 'base64'</code>                 |
+| **`mimeType`** | <code>string</code>                             |
+
+
+#### ReadOptions
+
+| Prop           | Type                                            |
+| -------------- | ----------------------------------------------- |
+| **`folder`**   | <code><a href="#folderref">FolderRef</a></code> |
+| **`path`**     | <code>string</code>                             |
+| **`encoding`** | <code>'utf8' \| 'base64'</code>                 |
+
+
+#### MkdirOptions
+
+| Prop            | Type                                            |
+| --------------- | ----------------------------------------------- |
+| **`folder`**    | <code><a href="#folderref">FolderRef</a></code> |
+| **`path`**      | <code>string</code>                             |
+| **`recursive`** | <code>boolean</code>                            |
+
+
+#### RmdirOptions
+
+| Prop            | Type                                            |
+| --------------- | ----------------------------------------------- |
+| **`folder`**    | <code><a href="#folderref">FolderRef</a></code> |
+| **`path`**      | <code>string</code>                             |
+| **`recursive`** | <code>boolean</code>                            |
+
+
+#### ReaddirResult
+
+| Prop          | Type                                                                                            |
+| ------------- | ----------------------------------------------------------------------------------------------- |
+| **`entries`** | <code>{ name: string; isDir: boolean; size?: number \| null; mtime?: number \| null; }[]</code> |
+
+
+#### ReaddirOptions
+
+| Prop         | Type                                            |
+| ------------ | ----------------------------------------------- |
+| **`folder`** | <code><a href="#folderref">FolderRef</a></code> |
+| **`path`**   | <code>string</code>                             |
+
+
+#### StatResult
+
+| Prop        | Type                                            |
+| ----------- | ----------------------------------------------- |
+| **`uri`**   | <code>string</code>                             |
+| **`size`**  | <code>number \| null</code>                     |
+| **`mtime`** | <code>number \| null</code>                     |
+| **`type`**  | <code>'file' \| 'directory' \| 'unknown'</code> |
+
+
+#### StatOptions
+
+| Prop         | Type                                            |
+| ------------ | ----------------------------------------------- |
+| **`folder`** | <code><a href="#folderref">FolderRef</a></code> |
+| **`path`**   | <code>string</code>                             |
+
+
+#### ExistsResult
+
+| Prop              | Type                 |
+| ----------------- | -------------------- |
+| **`exists`**      | <code>boolean</code> |
+| **`isDirectory`** | <code>boolean</code> |
+
+
+#### ExistsOptions
+
+| Prop         | Type                                            |
+| ------------ | ----------------------------------------------- |
+| **`folder`** | <code><a href="#folderref">FolderRef</a></code> |
+| **`path`**   | <code>string</code>                             |
+
+
+#### DeleteOptions
+
+| Prop         | Type                                            |
+| ------------ | ----------------------------------------------- |
+| **`folder`** | <code><a href="#folderref">FolderRef</a></code> |
+| **`path`**   | <code>string</code>                             |
+
+
+#### MoveCopyOptions
+
+| Prop            | Type                                            |
+| --------------- | ----------------------------------------------- |
+| **`folder`**    | <code><a href="#folderref">FolderRef</a></code> |
+| **`from`**      | <code>string</code>                             |
+| **`to`**        | <code>string</code>                             |
+| **`overwrite`** | <code>boolean</code>                            |
+
+
+#### UriForPathResult
+
+| Prop      | Type                        |
+| --------- | --------------------------- |
+| **`uri`** | <code>string \| null</code> |
+
+
+#### UriForPathOptions
+
+| Prop         | Type                                            |
+| ------------ | ----------------------------------------------- |
+| **`folder`** | <code><a href="#folderref">FolderRef</a></code> |
+| **`path`**   | <code>string</code>                             |
+
+
+### Type Aliases
+
+
+#### AppendOptions
+
+<code><a href="#writeoptions">WriteOptions</a></code>
+
+</docgen-api>
 
 ## 📄 License
 
 [MIT](./LICENSE)
 **Author:** Daniele Rolli
-
