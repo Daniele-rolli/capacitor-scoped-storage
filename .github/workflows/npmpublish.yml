@@ -21,9 +21,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'npm'
 
-      - run: npm ci
+      - run: npm install --include=optional
 
       - name: Get version from package.json
         id: get-version
@@ -44,10 +43,9 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'npm'
           registry-url: 'https://registry.npmjs.org'
 
-      - run: npm ci
+      - run: npm install --include=optional
 
       - name: Publish to npmjs.org
         env:
