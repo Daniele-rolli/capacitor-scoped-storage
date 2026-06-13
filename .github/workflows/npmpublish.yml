@@ -25,7 +25,7 @@ jobs:
         with:
           node-version: '22'
 
-      - run: npm install --include=optional
+      - run: npm install
 
       - name: Get version from package.json
         id: get-version
@@ -48,7 +48,7 @@ jobs:
           node-version: '22'
           registry-url: 'https://registry.npmjs.org'
 
-      - run: npm install --include=optional
+      - run: npm install
 
       - name: Publish to npmjs.org
         env:
